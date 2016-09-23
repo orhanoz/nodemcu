@@ -10,6 +10,7 @@ tmr.alarm(0,1000,1,function()
         print("\nIP:",ip)
         print("\nNetmask:",nm)
         print("\nGateway:",gw)
+        tmr.stop(0)
     end
 end)
 
