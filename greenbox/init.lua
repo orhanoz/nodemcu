@@ -1,10 +1,5 @@
 --init.lua-- 
--- wifi adi parolasi
---ssid = "ZyXEL"
---pass = "gs205368"
 print('\ninit.lua in progress...\n')
-
-
 --wifi config begins
 local wifiConfig={}
 wifiConfig.mode=wifi.STATIONAP
