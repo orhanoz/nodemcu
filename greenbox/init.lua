@@ -60,7 +60,6 @@ if(wifi.getmode()==wifi.STATION) or (wifi.getmode()==wifi.STATIONAP) then
                 srv:listen(80,function(conn)
                     conn:on("receive",function(conn,payload)
                         print(payload)
-
                 conn:send('HTTP/1.1 200 OK\n\n')
                 conn:send('<!DOCTYPE HTML>\n')
                 conn:send('<html>\n')
@@ -68,12 +67,17 @@ if(wifi.getmode()==wifi.STATION) or (wifi.getmode()==wifi.STATIONAP) then
                 conn:send('<title>GreenBox</title></head>\n')
                 conn:send('<body><h1>GreenBox! Road to success</h1>\n')
                 conn:send('<form action="" method="POST">\n')
-                conn:send('<input type="text" name="wifiId" value="Wifi Id"')
+                conn:send('<input type="text" name="wifiId" value="Wifi Id">\n')
+                conn:send('<form action="" method="POST">\n')
+                conn:send('<input type="text" name="wifiPwd" value="Password">\n')
+                conn:send('<form action="" method="POST">\n')
                 conn:send('<input type="submit" name="writeIdPwd" value="Send">\n')
                 conn:send('</body></html>\n')
             end)
             conn:on("sent",function(conn) conn:close() end)
         end)
+        print(wifiId)
+        print(wifiPwd)
             else
                 print("Connected .. ip:",ip)
             end
@@ -85,4 +89,3 @@ if(wifi.getmode()==wifi.STATION) or (wifi.getmode()==wifi.STATIONAP) then
     end)
 end
 
-dofile("main.lua")
