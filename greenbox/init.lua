@@ -23,7 +23,8 @@ wifiConfig.stationPointConfig.pwd=""
 
 if file.open("datas","r") then
     tempRead=file.read()
-    wifiConfig.stationPointConfig.ssid=string.sub(tempRead,string.find(tempRead,":")+2,string.find(tempRead,"pass:")-1)
+    wifiConfig.stationPointConfig.ssid=string.sub(tempRead,string.find(tempRead,":")+1,string.find(tempRead,"pass:")-1)
+    wifiConfig.stationPointConfig.pwd=string.sub(tempRead,string.find(tempRead,"pass:")+5,string.find(tempRead,":end")-1)
     file.close()
 end
 wifi.setmode(wifiConfig.mode)
