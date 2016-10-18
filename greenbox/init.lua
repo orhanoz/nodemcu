@@ -4,10 +4,6 @@
 --pass = "gs205368"
 print('\ninit.lua in progress...\n')
 
-if file.open("datas","r") then
-    print(file.read())
-    file.close()
-end
 
 --wifi config begins
 local wifiConfig={}
@@ -25,6 +21,11 @@ wifiConfig.stationPointConfig={}
 wifiConfig.stationPointConfig.ssid=""
 wifiConfig.stationPointConfig.pwd=""
 
+if file.open("datas","r") then
+    tempRead=file.read()
+    wifiConfig.stationPointConfig.ssid=string.sub(tempRead.sub(tempRead,string.find(tempRead,":")+1,string.find(asd,"pass:")-1))
+    file.close()
+end
 wifi.setmode(wifiConfig.mode)
 print('set (mode='..wifi.getmode()..')')
 
