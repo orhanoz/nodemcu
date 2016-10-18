@@ -23,7 +23,7 @@ wifiConfig.stationPointConfig.pwd=""
 
 if file.open("datas","r") then
     tempRead=file.read()
-    wifiConfig.stationPointConfig.ssid=string.sub(tempRead.sub(tempRead,string.find(tempRead,":")+1,string.find(asd,"pass:")-1))
+    wifiConfig.stationPointConfig.ssid=string.sub(tempRead,string.find(tempRead,":")+2,string.find(tempRead,"pass:")-1)
     file.close()
 end
 wifi.setmode(wifiConfig.mode)
@@ -39,10 +39,12 @@ if(wifiConfig.mode == wifi.STATION) or (wifiConfig.mode == wifi.STATIONAP) then
     print('Client MAC: ',wifi.sta.getmac())
     wifi.sta.config(wifiConfig.stationPointConfig.ssid, wifiConfig.stationPointConfig.pwd, 1)
 end
-
+print('ssid: ',wifiConfig.stationPointConfig.ssid)
+print('pass: ',wifiConfig.stationPointConfig.pwd)
 print('chip: ',node.chipid())
 print('heap: ',node.heap())
 wifiConfig = nil
+tempRead=nil
 collectgarbage()
 --wificonfig end
 if(wifi.getmode()==wifi.STATION) or (wifi.getmode()==wifi.STATIONAP) then
