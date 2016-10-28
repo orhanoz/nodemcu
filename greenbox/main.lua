@@ -1,42 +1,33 @@
---main.lua --
-
--- WiFi Connection Verification 
-tmr.alarm(0, 1000, 1, function()
-   if wifi.sta.getip() == nil then
-         print("Connecting to AP...\n")
-            else
-                  ip, nm, gw=wifi.sta.getip()
-                        print("IP Info: \nIP Address: ",ip)
-                              print("Netmask: ",nm)
-                                    print("Gateway Addr: ",gw,'\n')
-                                          tmr.stop(0)
-                                             end
-                                             end)
---Read LDR
-adc_id = 0
-adc_value=adc.read(adc_id)
---Read DHT!!
-status,temp,humi,temp_decimal,humi_decimal=dht.read11(1)
-
--- Web Server --
-print("Starting Web Server...")
--- Create a server object with 30 second timeout
-srv = net.createServer(net.TCP, 30)
-srv:listen(80, function(conn)
-        conn:on("receive", function(conn, payload)
-                    print(payload)
---Sending basic stuff
-conn:send('HTTP/1.1 200 OK\n\n')
-conn:send('<!DOCTYPE HTML>\n')
-conn:send('<html>\n')
-conn:send('<head><meta  content="text/html; charset=utf-8">\n')
-conn:send('<title>GreenBox</title></head>\n')
-conn:send('<body><h1>GreenBox! Road to success</h1>\n')
---Labels
-conn:send('<p>ADC Value: '..adc_value..'</p><br>')
-conn:send('<p>Temperature: '..temp..'</p><br>')
-conn:send('<p>Humidity: '..humi..'</p><br>')
-conn:send('</body></html>\n')
-end)
-conn:on("sent", function(conn) conn:close() end)
-end)
+print("main")
+function postThingSpeak(level)
+	connout=nil
+	connout=net.createConnection(net.TCP,0)
+	connout:on("receive",function(connout,payloadout)
+		if(string.find(payloadout,"Status: 200 OK")~=nil) then
+			print("Posted OK")
+		end
+	end)
+	connout:on("connection",function(connout,payloadout)
+		print("Posting...")
+		local adc_value=adc.read(0)
+		local status,temp,humi,temp_decimal,humi_decimal=dht.read11(1)
+		if temp==-999 or humi==-999 then
+		local status,temp,humi,temp_decimal,humi_decimal=dht.read11(1)
+		end
+		connout:send("GET /update?api_key=29I9SY6QZWYQ9FF2&field1="..adc_value..
+		"&field2="..temp..
+		"&field3="..humi..
+		" HTTP/1.1\r\n"..
+		"Host: api.thingspeak.com\r\n"..
+		"Connection:close\r\n"..
+		"Accept: */*\r\n"..
+		"User-Agent: Mozilla/4.0 (compatible;esp8266 Lua;Windows NT 5.1)\r\n"..
+		"\r\n")
+	end)
+	connout:on("disconnection",function(connout,payloadout)
+		connout:close();
+		collectgarbage();
+	end)
+	connout:connect(80,'api.thingspeak.com')
+end
+tmr.alarm(1,60000,1,function() postThingSpeak(0) end)
