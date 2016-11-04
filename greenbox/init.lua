@@ -58,7 +58,7 @@ if(wifi.getmode()==wifi.STATION) or (wifi.getmode()==wifi.STATIONAP) then
              	dofile('firstconn.lua')
             else
                 print("Connected .. ip:",ip)
-				dofile('main.lua')
+				dofile('readState.lua')
             end
             tmr.stop(0)
             joinCounter=nil
