@@ -14,7 +14,7 @@ function postThingSpeak(level)
 		if temp==-999 or humi==-999 then
 		local status,temp,humi,temp_decimal,humi_decimal=dht.read11(1)
 		end
-		connout:send("GET /update?api_key=*************&field1="..adc_value..
+		connout:send("GET /update?api_key=29I9SY6QZWYQ9FF2&field1="..adc_value..
 		"&field2="..temp..
 		"&field3="..humi..
 		" HTTP/1.1\r\n"..
