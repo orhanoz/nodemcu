@@ -57,7 +57,6 @@ if(wifi.getmode()==wifi.STATION) or (wifi.getmode()==wifi.STATIONAP) then
 				print("Starting a node on 192.168.1.1")
              	dofile('firstconn.lua')
             else
-                print("Connected .. ip:",ip)
 				dofile('readState.lua')
             end
             tmr.stop(0)

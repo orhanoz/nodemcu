@@ -1,4 +1,3 @@
-print("readSensor")
 local tempo=0
 local counter=0
 for i=1,10 do 
